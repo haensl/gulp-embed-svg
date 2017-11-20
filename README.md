@@ -1,6 +1,7 @@
 # gulp-embed-svg
 
 [![NPM](https://nodei.co/npm/gulp-embed-svg.png?downloads=true)](https://nodei.co/npm/gulp-embed-svg/)
+
 [![npm version](https://badge.fury.io/js/gulp-embed-svg.svg)](http://badge.fury.io/js/gulp-embed-svg)
 [![Build Status](https://travis-ci.org/haensl/gulp-embed-svg.svg?branch=master)](https://travis-ci.org/haensl/gulp-embed-svg)
 
