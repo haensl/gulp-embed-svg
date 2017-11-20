@@ -13,6 +13,9 @@ const defaults = {
   attrs: /^(?!src).*$/,
   root: __dirname
 };
+const process = (img, options, callback) => {
+  return false;
+};
 
 module.exports = (opts = {}) =>
   through.obj((file, encoding, callback) => {
@@ -50,32 +53,36 @@ module.exports = (opts = {}) =>
 
     const $ = cheerio.load(file.contents.toString());
     let didInline = false;
+    let error;
+    $(selectors).each((index, element) => {
+      const img = $(element);
+      const src = img.attr('src');
+      const absSrc = path.resolve(path.join(options.root, src));
 
-    $(selectors)
-      .each(function() {
-        let img = $(this);
-        const src = img.attr('src');
-        const absSrc = path.resolve(path.join(options.root, src));
-
-        if (src
-          && fs.existsSync(absSrc)
-          && fs.statSync(absSrc).isFile()) {
-          try {
-            const svg = $(fs.readFileSync(absSrc, 'utf8'));
-            if (options.attrs) {
-              Object.keys(img[0].attribs).filter((attr) => options.attrs.test(attr))
-                .forEach((attr) => svg.attr(attr, img.attr(attr)));
-            }
-            img.after($(svg));
-            img.remove();
-            didInline = true;
-          } catch (e) {
-            return callback(new gutil.PluginError(PLUGIN_NAME, e));
+      if (src
+        && fs.existsSync(absSrc)
+        && fs.statSync(absSrc).isFile()) {
+        try {
+          const svg = $(fs.readFileSync(absSrc, 'utf8'));
+          if (options.attrs) {
+            Object.keys(img[0].attribs).filter((attr) => options.attrs.test(attr))
+              .forEach((attr) => svg.attr(attr, img.attr(attr)));
           }
-        } else {
-          return callback(new gutil.PluginError(PLUGIN_NAME, `Invalid source path: ${src}`));
+          img.replaceWith(svg);
+          didInline = true;
+        } catch (err) {
+          error = new gutil.PluginError(PLUGIN_NAME, err);
+          return false;
         }
-      });
+      } else {
+        error = new gutil.PluginError(PLUGIN_NAME, `Invalid source path: ${src}`);
+        return false;
+      }
+    });
+
+    if (error) {
+      return callback(error);
+    }
 
     if (didInline) {
       file.contents = new Buffer($.html());

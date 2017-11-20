@@ -121,8 +121,11 @@ describe('gulp-inline-svg', () => {
             }));
         });
 
-        it('should process custom selected tags', () => {
+        it('should process tags with select-me class', () => {
           expect(/svg class="select-me"/.test(output)).to.be.true;
+        });
+
+        it('should process tags with also-select-me class', () => {
           expect(/svg class="also-select-me"/.test(output)).to.be.true;
         });
 
