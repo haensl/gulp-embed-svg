@@ -11,17 +11,12 @@ describe('gulp-inline-svg', () => {
     let output;
 
     beforeEach((done) => {
-      try {
-        gulp.src(fixtures('svg.html'))
-          .pipe(inlineSvg())
-          .pipe(through.obj((file) => {
-            output = file.contents.toString();
-            done();
-          }));
-      } catch (e) {
-        console.error(e);
-        done();
-      }
+      gulp.src(fixtures('svg.html'))
+        .pipe(inlineSvg())
+        .pipe(through.obj((file) => {
+          output = file.contents.toString();
+          done();
+        }));
     });
 
     it('replaces the svg tag with the svg file', () => {
@@ -78,13 +73,13 @@ describe('gulp-inline-svg', () => {
 
   describe('no input', () => {
     it('does not throw', () => {
-      expect(inlineSvg()).not.to.throw;
+      expect(inlineSvg).not.to.throw;
     });
   });
 
   describe('nonexistent src', () => {
     it('throws an exception', () => {
-      expect(gulp.src(fixtures('nonexistent-src.html'))
+      expect(() => gulp.src(fixtures('nonexistent-src.html'))
         .pipe(inlineSvg())).to.throw;
     });
   });
@@ -138,7 +133,7 @@ describe('gulp-inline-svg', () => {
 
       describe('invalid selectors', () => {
         it('should throw an exception', () => {
-          expect(gulp.src('custom-selectors.html')
+          expect(() => gulp.src('custom-selectors.html')
             .pipe(inlineSvg({
               selectors: {
                 foo: 'bar'
@@ -252,7 +247,7 @@ describe('gulp-inline-svg', () => {
       })
 
       describe('non string or RegExp', () => {
-        expect(gulp.src(fixtures('svg.html'))
+        expect(() => gulp.src(fixtures('svg.html'))
           .pipe(inlineSvg({
             attrs: {
               foo: 'bar'
