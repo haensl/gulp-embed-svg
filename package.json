@@ -1,0 +1,49 @@
+{
+  "name": "gulp-embed-svg",
+  "version": "1.0.0",
+  "description": "Gulp plugin to embed/inline svg images.",
+  "main": "index.js",
+  "engines": {
+    "node": "~6.9.4"
+  },
+  "scripts": {
+    "test": "mocha",
+    "tdd": "mocha --watch",
+    "lint": "eslint ./**/*.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/haensl/gulp-embed-svg.git"
+  },
+  "bugs": {
+    "url": "https://github.com/haensl/gulp-embed-svg/issues"
+  },
+  "homepage": {
+    "url": "https://github.com/haensl/gulp-embed-svg#readme"
+  },
+  "keywords": [
+    "gulp",
+    "gulpplugin",
+    "gulp-plugin",
+    "inline",
+    "embed",
+    "svg",
+    "html"
+  ],
+  "author": {
+    "name": "HP Dietz",
+    "email": "h.p.dietz@gmail.com",
+    "twitter": "@h_p_d"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.2",
+    "gulp-util": "^3.0.8",
+    "through2": "^2.0.3"
+  },
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "gulp": "^3.9.1",
+    "mocha": "^4.0.1"
+  }
+}
