@@ -247,12 +247,57 @@ describe('gulp-inline-svg', () => {
       })
 
       describe('non string or RegExp', () => {
-        expect(() => gulp.src(fixtures('svg.html'))
-          .pipe(inlineSvg({
-            attrs: {
-              foo: 'bar'
-            }
-          }))).to.throw;
+        it('throws an error', () => {
+          expect(() => gulp.src(fixtures('svg.html'))
+            .pipe(inlineSvg({
+              attrs: {
+                foo: 'bar'
+              }
+            }))).to.throw;
+        });
+      });
+    });
+
+    describe('root', () => {
+      let ouput;
+
+      describe('string', () => {
+        describe('valid path', () => {
+          beforeEach((done) => {
+            gulp.src(fixtures('svg-root.html'))
+              .pipe(inlineSvg({
+                root: './test/fixtures/svg-root'
+              }))
+              .pipe(through.obj((file) => {
+                output = file.contents.toString();
+                done();
+              }));
+          });
+
+          it('searches for the svg root in the given root folder', () => {
+            expect(/class="github-icon"/.test(output)).to.be.true;
+          });
+        });
+
+        describe('invalid path', () => {
+          it('throws an error', () => {
+            expect(() => gulp.src(fixtures('svg-root.html'))
+              .pipe(inlineSvg({
+                root: './test/fixtures/does-not-exist'
+              }))).to.throw;
+          });
+        });
+      });
+  
+      describe('non string', () => {
+        it('throws an error', () => {
+          expect(() => gulp.src(fixtures('svg-root.html'))
+            .pipe(inlineSvg({
+              root: {
+                foo: 'bar'
+              }
+            }))).to.throw;
+        });
       });
     });
   });

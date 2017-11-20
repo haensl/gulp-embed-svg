@@ -4,7 +4,7 @@
 [![npm version](https://badge.fury.io/js/gulp-embed-svg.svg)](http://badge.fury.io/js/gulp-embed-svg)
 [![Build Status](https://travis-ci.org/haensl/gulp-embed-svg.svg?branch=master)](https://travis-ci.org/haensl/gulp-embed-svg)
 
-Gulp plugin to inlines/embedd SVG images into html files.
+Gulp plugin to inline/embed SVG images into html files.
 
 ## Features
 
@@ -33,7 +33,7 @@ This gulp task will inline/embed any images with an SVG source attribute (i.e. `
 
 ## Options
 
-### selectors `string | Array<string>` [required]
+### selectors `string | Array<string>`
 
 Provide custom CSS selectors to specify which tags should be replaced by embedded SVGs.
 
@@ -42,6 +42,20 @@ Provide custom CSS selectors to specify which tags should be replaced by embedde
 All `<img>` and `<svg>` tags with an svg source.
 
 #### Example: Only embed tags with a specific class
+HTML layout
+```html
+<html>
+  <head><!-- ... --></head>
+  <body>
+    <!-- ... -->
+    <svg src="github-icon.svg" class="inline-svg"></svg>
+    <img src="other-icon.svg" />
+    <!-- ... -->
+  </body>
+</html>
+```
+
+Gulp task
 ```javascript
 const embedSvg = require('gulp-embed-svg');
 
@@ -53,7 +67,21 @@ gulp.task('embedSvgs', () =>
     .pipe(gulp.dest('dist/')));
 ```
 
-### attrs `string | RegExp` [optional]
+Output
+```html
+<html>
+  <head><!-- ... --></head>
+  <body>
+    <!-- ... -->
+    <svg class="inline-svg"><!-- svg markup from github-icon.svg --></svg>
+    <img src="other-icon.svg" />
+    <!-- ... -->
+  </body>
+</html>
+```
+
+
+### attrs `string | RegExp`
 
 Provide a regular expression to transfer select attributes from matched tags to embedded `<svg>`s.
 
@@ -61,9 +89,22 @@ Provide a regular expression to transfer select attributes from matched tags to 
 
 #### default: `^(?!src).*$`
 
-Transfer/preserve any attribute **but `src`.
+Transfer/preserve any attribute **but** `src`.
 
 #### Example: Preserve/transfer specific attribute
+HTML layout
+```html
+<html>
+<head><!-- ... --></head>
+<body>
+  <!-- ... -->
+  <svg src="github-icon.svg" class="icon"></svg>
+  <!-- ... -->
+</body>
+</html>
+```
+
+Gulp task
 ```javascript
 const embedSvg = require('gulp-embed-svg');
 
@@ -74,6 +115,64 @@ gulp.task('embedSvgs', () =>
     }))
     .pipe(gulp.dest('dist/')));
 ```
+
+Output
+```html
+<html>
+  <head><!-- ... --></head>
+  <body>
+    <!-- ... -->
+    <svg class="icon"><!-- svg markup from github-icon.svg --></svg>
+    <!-- ... -->
+  </body>
+</html>
+```
+
+
+### root `string`
+
+Provide the root folder where SVG source images are located.
+
+#### default: `__dirname`
+
+The folder in which the task is executed.
+
+#### Example: Alternate svg root
+
+HTML layout
+
+```html
+<html>
+  <head><!-- ... --></head>
+  <body>
+    <!-- ... -->
+    <svg src="github-icon.svg"></svg>
+    <!-- ... -->
+  </body>
+</html>
+```
+
+Folder structure
+```bash
+  /src
+    index.html
+    gulpfile.js
+    /assets
+      github-icon.svg
+```
+
+Gulp task
+```javascript
+const embedSvg = require('gulp-embed-svg');
+
+gulp.task('embedSvgs', () =>
+  gulp.src('*.html')
+    .pipe(embedSvg({
+      root: './assets'
+    }))
+    .pipe(gulp.dest('dist/')));
+```
+
 
 ## [Changelog](CHANGELOG.md)
 

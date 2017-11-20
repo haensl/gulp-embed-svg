@@ -2,7 +2,7 @@ const through = require('through2');
 const cheerio = require('cheerio');
 const gutil = require('gulp-util');
 const fs = require('fs');
-const join = require('path').join;
+const path = require('path');
 
 const PLUGIN_NAME = require('./package').name;
 const defaults = {
@@ -10,7 +10,8 @@ const defaults = {
     'img[src$=".svg"]',
     'svg[src$=".svg"]'
   ],
-  attrs: /^(?!src).*$/
+  attrs: /^(?!src).*$/,
+  root: __dirname
 };
 
 module.exports = (opts = {}) =>
@@ -24,7 +25,12 @@ module.exports = (opts = {}) =>
     }
 
     const options = Object.assign({}, defaults, opts);
-    console.log('options', options);
+
+    if (typeof options.root !== 'string') {
+      return callback(new gutil.PluginError(PLUGIN_NAME, 'Invalid option: root must be a string'));
+    } else if (!fs.existsSync(options.root)) {
+      return callback(new gutil.PluginError(PLUGIN_NAME, `Invalid option: root path ${options.root} does not exist`));
+    }
 
     if (typeof options.attrs === 'string') {
       options.attrs = new RegExp(options.attrs);
@@ -49,7 +55,7 @@ module.exports = (opts = {}) =>
       .each(function() {
         let img = $(this);
         const src = img.attr('src');
-        const absSrc = join(__dirname, src);
+        const absSrc = path.resolve(path.join(options.root, src));
 
         if (src
           && fs.existsSync(absSrc)
