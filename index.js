@@ -13,9 +13,6 @@ const defaults = {
   attrs: /^(?!src).*$/,
   root: __dirname
 };
-const process = (img, options, callback) => {
-  return false;
-};
 
 module.exports = (opts = {}) =>
   through.obj((file, encoding, callback) => {
