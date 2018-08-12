@@ -11,7 +11,8 @@ const defaults = {
     'svg[src$=".svg"]'
   ],
   attrs: /^(?!src).*$/,
-  root: __dirname
+  root: __dirname,
+  decodeEntities: false
 };
 
 module.exports = (opts = {}) =>
@@ -25,6 +26,10 @@ module.exports = (opts = {}) =>
     }
 
     const options = Object.assign({}, defaults, opts);
+
+    if (typeof options.decodeEntities !== 'boolean') {
+      return callback(new gutil.PluginError(PLUGIN_NAME, 'Invalid option: decodeEntities must be a boolean'));
+    }
 
     if (typeof options.root !== 'string') {
       return callback(new gutil.PluginError(PLUGIN_NAME, 'Invalid option: root must be a string'));
@@ -82,7 +87,9 @@ module.exports = (opts = {}) =>
     }
 
     if (didInline) {
-      file.contents = new Buffer($.html());
+      file.contents = new Buffer($.html({
+        decodeEntities: options.decodeEntities
+      }));
     }
 
     callback(null, file);

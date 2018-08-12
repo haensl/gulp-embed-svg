@@ -129,6 +129,53 @@ Output
 </html>
 ```
 
+### decodeEntities `boolean`
+
+Set to `true` to decode HTML entities within the document.
+
+#### default: `false`
+
+##### Example: Replace potential entities in document with html entities
+
+HTML layout
+
+```html
+<html>
+  <head><!-- ... --></head>
+  <body>
+    <!-- ... -->
+    <span>Foo © bar 𝌆 baz ☃ qux</span>
+    <svg src="github-icon.svg"></svg>
+    <!-- ... -->
+  </body>
+</html>
+```
+
+Gulp task
+```javascript
+const embedSvg = require('gulp-embed-svg');
+
+gulp.task('embedSvgs', () =>
+  gulp.src('*.html')
+    .pipe(embedSvg({
+      decodeEntities: true
+    }))
+    .pipe(gulp.dest('dist/')));
+```
+
+Output
+```html
+<html>
+  <head><!-- ... --></head>
+  <body>
+    <!-- ... -->
+    <span>Foo &#xA9; bar &#x1D306; baz &#x2603; qux</span>
+    <svg class="icon"><!-- svg markup from github-icon.svg --></svg>
+    <!-- ... -->
+  </body>
+</html>
+```
+
 
 ### root `string`
 
