@@ -11,7 +11,8 @@ const defaults = {
     'svg[src$=".svg"]'
   ],
   attrs: /^(?!src).*$/,
-  root: __dirname
+  root: __dirname,
+  decodeEntities: false
 };
 
 module.exports = (opts = {}) =>
@@ -82,7 +83,9 @@ module.exports = (opts = {}) =>
     }
 
     if (didInline) {
-      file.contents = new Buffer($.html());
+      file.contents = new Buffer($.html({
+        decodeEntities: options.decodeEntities
+      }));
     }
 
     callback(null, file);
