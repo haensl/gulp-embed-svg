@@ -191,11 +191,22 @@ describe('gulp-inline-svg', () => {
 
       describe('invalid selectors', () => {
         it('should throw an exception', () => {
-          expect(() => gulp.src('custom-selectors.html')
+          expect(() => gulp.src(fixtures('custom-selectors.html'))
             .pipe(inlineSvg({
               selectors: {
                 foo: 'bar'
               }
+            }))).to.throw;
+        });
+      });
+    });
+
+    describe('decodeEntities', () => {
+      describe('non boolean', () => {
+        it('should throw an exception()', () => {
+          expect(() => fixtures('cyrillic-svg.html')
+            .pipe(inlineSvg({
+              decodeEntities: 'foobar'
             }))).to.throw;
         });
       });

@@ -27,6 +27,10 @@ module.exports = (opts = {}) =>
 
     const options = Object.assign({}, defaults, opts);
 
+    if (typeof options.decodeEntities !== 'boolean') {
+      return callback(new gutil.PluginError(PLUGIN_NAME, 'Invalid option: decodeEntities must be a boolean'));
+    }
+
     if (typeof options.root !== 'string') {
       return callback(new gutil.PluginError(PLUGIN_NAME, 'Invalid option: root must be a string'));
     } else if (!fs.existsSync(options.root)) {
