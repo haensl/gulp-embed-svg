@@ -4,7 +4,7 @@
   "description": "Gulp plugin to embed/inline svg images.",
   "main": "index.js",
   "engines": {
-    "node": "~6.9.4"
+    "node": ">=6.9.4"
   },
   "scripts": {
     "test": "mocha",
