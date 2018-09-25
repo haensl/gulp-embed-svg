@@ -87,7 +87,7 @@ module.exports = (opts = {}) =>
     }
 
     if (didInline) {
-      file.contents = new Buffer($.html({
+      file.contents = new Buffer.from($.html({
         decodeEntities: options.decodeEntities
       }));
     }
