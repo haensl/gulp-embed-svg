@@ -1,8 +1,8 @@
 const through = require('through2');
 const cheerio = require('cheerio');
-const gutil = require('gulp-util');
 const fs = require('fs');
 const path = require('path');
+const PluginError = require('plugin-error');
 
 const PLUGIN_NAME = require('./package').name;
 const defaults = {
@@ -22,25 +22,25 @@ module.exports = (opts = {}) =>
     }
 
     if (file.isStream()) {
-      return callback(new gutil.PluginError(PLUGIN_NAME, 'Streams are not supported.'));
+      return callback(new PluginError(PLUGIN_NAME, 'Streams are not supported.'));
     }
 
     const options = Object.assign({}, defaults, opts);
 
     if (typeof options.decodeEntities !== 'boolean') {
-      return callback(new gutil.PluginError(PLUGIN_NAME, 'Invalid option: decodeEntities must be a boolean'));
+      return callback(new PluginError(PLUGIN_NAME, 'Invalid option: decodeEntities must be a boolean'));
     }
 
     if (typeof options.root !== 'string') {
-      return callback(new gutil.PluginError(PLUGIN_NAME, 'Invalid option: root must be a string'));
+      return callback(new PluginError(PLUGIN_NAME, 'Invalid option: root must be a string'));
     } else if (!fs.existsSync(options.root)) {
-      return callback(new gutil.PluginError(PLUGIN_NAME, `Invalid option: root path ${options.root} does not exist`));
+      return callback(new PluginError(PLUGIN_NAME, `Invalid option: root path ${options.root} does not exist`));
     }
 
     if (typeof options.attrs === 'string') {
       options.attrs = new RegExp(options.attrs);
     } else if (!(options.attrs instanceof RegExp)) {
-      return callback(new gutil.PluginError(PLUGIN_NAME, 'Invalid option: attrs must be either RegExp or string'));
+      return callback(new PluginError(PLUGIN_NAME, 'Invalid option: attrs must be either RegExp or string'));
     }
 
     let selectors;
@@ -50,7 +50,7 @@ module.exports = (opts = {}) =>
     } else if (typeof options.selectors === 'string') {
       selectors = options.selectors;
     } else {
-      return callback(new gutil.PluginError(PLUGIN_NAME, `Invalid option: selectors must be either string or Array`));
+      return callback(new PluginError(PLUGIN_NAME, `Invalid option: selectors must be either string or Array`));
     }
 
     const $ = cheerio.load(file.contents.toString());
@@ -73,11 +73,11 @@ module.exports = (opts = {}) =>
           img.replaceWith(svg);
           didInline = true;
         } catch (err) {
-          error = new gutil.PluginError(PLUGIN_NAME, err);
+          error = new PluginError(PLUGIN_NAME, err);
           return false;
         }
       } else {
-        error = new gutil.PluginError(PLUGIN_NAME, `Invalid source path: ${src}`);
+        error = new PluginError(PLUGIN_NAME, `Invalid source path: ${src}`);
         return false;
       }
     });
@@ -87,7 +87,7 @@ module.exports = (opts = {}) =>
     }
 
     if (didInline) {
-      file.contents = new Buffer($.html({
+      file.contents = new Buffer.from($.html({
         decodeEntities: options.decodeEntities
       }));
     }
