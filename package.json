@@ -33,8 +33,22 @@
   "author": {
     "name": "HP Dietz",
     "email": "h.p.dietz@gmail.com",
-    "twitter": "@h_p_d"
+    "twitter": "@h_p_d",
+    "url": "https://hpdietz.com"
   },
+  "contributors": [
+    {
+      "name": "Jan Hadenfeldt",
+      "url": "https://jan-hadenfeldt.de/",
+      "email": "github@jan-hadenfeldt.de"
+    },
+    {
+      "name": "HP Dietz",
+      "email": "h.p.dietz@gmail.com",
+      "twitter": "@h_p_d",
+      "url": "https://hpdietz.com"
+    }
+  ],
   "license": "MIT",
   "dependencies": {
     "cheerio": "^1.0.0-rc.2",
