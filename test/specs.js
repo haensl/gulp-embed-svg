@@ -31,7 +31,7 @@ describe('gulp-inline-svg', () => {
 
   describe('cyrillic text', () => {
     let output;
-    
+
     describe('with decodeEntities set to false', () => {
       beforeEach((done) => {
         gulp.src(fixtures('cyrillic-svg.html'))
@@ -313,7 +313,7 @@ describe('gulp-inline-svg', () => {
             expect(/another-attr/.test(output)).to.be.false;
           });
         });
-      })
+      });
 
       describe('non string or RegExp', () => {
         it('throws an error', () => {
@@ -328,10 +328,9 @@ describe('gulp-inline-svg', () => {
     });
 
     describe('root', () => {
-      let ouput;
-
       describe('string', () => {
         describe('valid path', () => {
+          let output;
           beforeEach((done) => {
             gulp.src(fixtures('svg-root.html'))
               .pipe(inlineSvg({
@@ -357,7 +356,7 @@ describe('gulp-inline-svg', () => {
           });
         });
       });
-  
+
       describe('non string', () => {
         it('throws an error', () => {
           expect(() => gulp.src(fixtures('svg-root.html'))
