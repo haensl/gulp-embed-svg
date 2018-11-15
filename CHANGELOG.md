@@ -1,3 +1,7 @@
+## 1.0.3
+* [#6: Integrate CD.](https://github.com/haensl/gulp-embed-svg/issues/6)
+* Update dependencies
+
 # 1.0.2
 * [#4: gulp-util is deprecated](https://github.com/haensl/gulp-embed-svg/issues/4). Use `plugin-error` package instead.
 * Update too specific node requirements to allow usage of node >= 6 and not only node 6.
