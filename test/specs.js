@@ -68,7 +68,6 @@ describe('gulp-inline-svg', () => {
           }));
       });
 
-
       it('replaces the svg tag with the svg file', () => {
         expect(/class="github-icon"/.test(output)).to.be.true;
       });
@@ -237,7 +236,6 @@ describe('gulp-inline-svg', () => {
           });
         });
 
-
         describe('RegExp', () => {
           beforeEach((done) => {
             gulp.src(fixtures('svg.html'))
@@ -287,7 +285,6 @@ describe('gulp-inline-svg', () => {
             expect(/another-attr/.test(output)).to.be.false;
           });
         });
-
 
         describe('RegExp', () => {
           beforeEach((done) => {
