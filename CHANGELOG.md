@@ -1,13 +1,17 @@
+## 1.1.0
+* [#8: Add an option to create a SVG spritesheet.](https://github.com/haensl/gulp-embed-svg/issues/8)
+* Update dependencies.
+
 ## 1.0.3
 * [#6: Integrate CD.](https://github.com/haensl/gulp-embed-svg/issues/6)
-* Update dependencies
+* Update dependencies.
 
-# 1.0.2
+## 1.0.2
 * [#4: gulp-util is deprecated](https://github.com/haensl/gulp-embed-svg/issues/4). Use `plugin-error` package instead.
 * Update too specific node requirements to allow usage of node >= 6 and not only node 6.
 
-# 1.0.1
+## 1.0.1
 * [#2: Cyrillic is replaced](https://github.com/haensl/gulp-embed-svg/issues/2). Introduce `decodeEntities` option to selectively en- and decode html entities.
 
-# 1.0.0
+## 1.0.0
 * Initial project release.

@@ -13,6 +13,8 @@ Gulp plugin to inline/embed SVG images into html files.
 
 * Preserves all/select attributes via RegEx.
 
+* Optionally create a spritesheet from the inlined SVGs.
+
 ## Installation
 
 ```shell
@@ -181,7 +183,7 @@ Output
 
 Provide the root folder where SVG source images are located.
 
-#### default: `__dirname`
+#### default: [`__dirname`](https://nodejs.org/docs/latest/api/globals.html#globals_dirname)
 
 The folder in which the task is executed.
 
@@ -221,6 +223,142 @@ gulp.task('embedSvgs', () =>
     .pipe(gulp.dest('dist/')));
 ```
 
+### createSpritesheet `boolean`
+
+Set to `true` to embed SVGs via a spritesheet. This reduces generated HTML filesize if you use the same SVG several times on a page.
+
+#### default: `false`
+
+#### Example: Create an svg spritesheet
+
+HTML Layout
+
+```html
+<html>
+  <head><!-- ... --></head>
+  <body>
+    <!-- ... -->
+    <svg src="github-icon.svg"></svg>
+    <!-- ... -->
+    <svg src="github-icon.svg"></svg>
+    <!-- ... -->
+  </body>
+</html>
+```
+
+Folder structure
+```bash
+  /src
+    index.html
+    gulpfile.js
+    /assets
+      github-icon.svg
+```
+
+Gulp task
+```javascript
+const embedSvg = require('gulp-embed-svg');
+
+gulp.task('embedSvgs', () =>
+  gulp.src('*.html')
+    .pipe(embedSvg({
+      root: './assets',
+      createSpritesheet: true
+    }))
+    .pipe(gulp.dest('dist/')));
+```
+
+Output
+```html
+<html>
+  <head><!-- ... --></head>
+  <body>
+    <svg class="svg-sprites">
+      <symbol id="svg-sprite-0">
+        <!-- source of github-icon.svg -->
+      </symbol>
+    </svg>
+    <!-- ... -->
+    <svg>
+      <use xlink:href="#svg-sprite-0">
+    </svg>
+    <!-- ... -->
+    <svg>
+      <use xlink:href="#svg-sprite-0">
+    </svg>
+    <!-- ... -->
+  </body>
+</html>
+```
+
+### spritesheetClass `string`
+
+Customize the CSS class assigned to the generated spritesheet.
+
+#### default: `svg-sprites`
+
+#### Example: Change spritesheet class to my-sprites
+
+HTML Layout
+
+```html
+<html>
+  <head><!-- ... --></head>
+  <body>
+    <!-- ... -->
+    <svg src="github-icon.svg"></svg>
+    <!-- ... -->
+    <svg src="github-icon.svg"></svg>
+    <!-- ... -->
+  </body>
+</html>
+```
+
+Folder structure
+```bash
+  /src
+    index.html
+    gulpfile.js
+    /assets
+      github-icon.svg
+```
+
+Gulp task
+```javascript
+const embedSvg = require('gulp-embed-svg');
+
+gulp.task('embedSvgs', () =>
+  gulp.src('*.html')
+    .pipe(embedSvg({
+      root: './assets',
+      createSpritesheet: true,
+      spritesheetClass: 'my-sprites'
+    }))
+    .pipe(gulp.dest('dist/')));
+```
+
+Output
+```html
+<html>
+  <head><!-- ... --></head>
+  <body>
+    <svg class="my-sprites">
+      <symbol id="svg-sprite-0">
+        <!-- source of github-icon.svg -->
+      </symbol>
+    </svg>
+    <!-- ... -->
+    <svg>
+      <use xlink:href="#svg-sprite-0">
+    </svg>
+    <!-- ... -->
+    <svg>
+      <use xlink:href="#svg-sprite-0">
+    </svg>
+    <!-- ... -->
+  </body>
+</html>
+```
 
 ## [Changelog](CHANGELOG.md)
 

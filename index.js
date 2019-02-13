@@ -12,7 +12,9 @@ const defaults = {
   ],
   attrs: /^(?!src).*$/,
   root: __dirname,
-  decodeEntities: false
+  decodeEntities: false,
+  createSpritesheet: false,
+  spritesheetClass: 'svg-sprites'
 };
 
 module.exports = (opts = {}) =>
@@ -43,6 +45,14 @@ module.exports = (opts = {}) =>
       return callback(new PluginError(PLUGIN_NAME, 'Invalid option: attrs must be either RegExp or string'));
     }
 
+    if (typeof options.createSpritesheet !== 'boolean') {
+      return callback(new PluginError(PLUGIN_NAME, 'Invalid option: createSpritesheet must be a boolean'));
+    }
+
+    if (typeof options.spritesheetClass !== 'string') {
+      return callback(new PluginError(PLUGIN_NAME, 'Invalid option: spritesheetClass must be a string'));
+    }
+
     let selectors;
     if (Array.isArray(options.selectors)) {
       selectors = options.selectors.filter((selector) => typeof selector === 'string')
@@ -56,6 +66,20 @@ module.exports = (opts = {}) =>
     const $ = cheerio.load(file.contents.toString());
     let didInline = false;
     let error;
+    let sprites;
+    let spritesheet;
+    let i = 0;
+
+    if (options.createSpritesheet) {
+      spritesheet = $('<svg></svg>')
+        .addClass(options.spritesheetClass)
+        .attr('xmlns', 'http://www.w3.org/2000/svg');
+      sprites = {};
+      $('body').children()
+        .first()
+        .before(spritesheet);
+    }
+
     $(selectors).each((index, element) => {
       const img = $(element);
       const src = img.attr('src');
@@ -65,12 +89,37 @@ module.exports = (opts = {}) =>
         && fs.existsSync(absSrc)
         && fs.statSync(absSrc).isFile()) {
         try {
-          const svg = $(fs.readFileSync(absSrc, 'utf8'));
-          if (options.attrs) {
-            Object.keys(img[0].attribs).filter((attr) => options.attrs.test(attr))
-              .forEach((attr) => svg.attr(attr, img.attr(attr)));
+          const svgSrc = $(fs.readFileSync(absSrc, 'utf8'));
+          let svgElement;
+          if (options.createSpritesheet) {
+            if (!sprites[src]) {
+              const svgSymbol = $('<symbol></symbol>');
+              svgSymbol.attr('id', `svg-sprite-${i}`);
+              Object.keys(svgSrc[0].attribs)
+                .filter((attr) => !/xmlns/.test(attr))
+                .forEach((attr) => svgSymbol.attr(attr, svgSrc.attr(attr)));
+              svgSymbol.html(svgSrc.html());
+              spritesheet.append(svgSymbol);
+              sprites[src] = `svg-sprite-${i}`;
+              i++;
+            }
+
+            svgElement = $('<svg></svg>')
+              .attr('xmlns', 'http://www.w3.org/2000/svg')
+              .append(
+                $('<use>')
+                  .attr('xlink:href', `#${sprites[src]}`)
+              );
+          } else {
+            svgElement = svgSrc;
           }
-          img.replaceWith(svg);
+
+          if (options.attrs) {
+            Object.keys(img[0].attribs)
+              .filter((attr) => options.attrs.test(attr))
+              .forEach((attr) => svgElement.attr(attr, img.attr(attr)));
+          }
+          img.replaceWith(svgElement);
           didInline = true;
         } catch (err) {
           error = new PluginError(PLUGIN_NAME, err);

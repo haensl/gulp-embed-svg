@@ -368,5 +368,80 @@ describe('gulp-inline-svg', () => {
         });
       });
     });
+
+    describe('createSpritesheet', () => {
+      describe('true', () => {
+        let output;
+        beforeEach((done) => {
+          gulp.src(fixtures('three-svgs.html'))
+            .pipe(inlineSvg({
+              createSpritesheet: true
+            }))
+            .pipe(through.obj((file) => {
+              output = file.contents.toString();
+              done();
+            }));
+        });
+
+        it('inserts an svg spritesheet into the body', () => {
+          expect(/<svg class="svg-sprites"/.test(output)).to.be.true;
+        });
+
+        it('inserts an svg referencing the first symbol', () => {
+          expect(/<svg[^>]+><use xlink:href="#svg-sprite-0"/.test(output)).to.be.true;
+        });
+
+        it('inserts an svg referencing the second symbol', () => {
+          expect(/<svg[^>]+><use xlink:href="#svg-sprite-1"/.test(output)).to.be.true;
+        });
+      });
+
+      describe('non-boolean', () => {
+        it('throws an error', () => {
+          expect(() => gulp.src(fixtures('three-svgs.html'))
+            .pipe(inlineSvg({
+              createSpritesheet: 'foo'
+            }))).to.throw;
+        });
+      });
+    });
+
+    describe('spritesheetClass', () => {
+      describe('string', () => {
+        let output;
+        beforeEach((done) => {
+          gulp.src(fixtures('three-svgs.html'))
+            .pipe(inlineSvg({
+              createSpritesheet: true,
+              spritesheetClass: 'my-sprites'
+            }))
+            .pipe(through.obj((file) => {
+              output = file.contents.toString();
+              done();
+            }));
+        });
+
+        it('inserts an svg spritesheet into the body with the given class', () => {
+          expect(/<svg class="my-sprites"/.test(output)).to.be.true;
+        });
+
+        it('inserts an svg referencing the first symbol', () => {
+          expect(/<svg[^>]+><use xlink:href="#svg-sprite-0"/.test(output)).to.be.true;
+        });
+
+        it('inserts an svg referencing the second symbol', () => {
+          expect(/<svg[^>]+><use xlink:href="#svg-sprite-1"/.test(output)).to.be.true;
+        });
+      });
+
+      describe('non-string', () => {
+        it('throws an error', () => {
+          expect(() => gulp.src(fixtures('three-svgs.html'))
+            .pipe(inlineSvg({
+              spritesheetClass: 123
+            }))).to.throw;
+        });
+      });
+    });
   });
 });
