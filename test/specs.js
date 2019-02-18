@@ -393,6 +393,25 @@ describe('gulp-inline-svg', () => {
         });
       });
 
+      describe('svg with preable', () => {
+        let output;
+
+        beforeEach((done) => {
+          gulp.src(fixtures('preamble.html'))
+            .pipe(inlineSvg({
+              createSpritesheet: true
+            }))
+            .pipe(through.obj((file) => {
+              output = file.contents.toString();
+              done();
+            }));
+        });
+
+        it('works as expected', () => {
+          expect(/class="github-icon"/.test(output)).to.be.true;
+        });
+      });
+
       describe('non-boolean', () => {
         it('throws an error', () => {
           expect(() => gulp.src(fixtures('three-svgs.html'))
@@ -440,5 +459,6 @@ describe('gulp-inline-svg', () => {
         });
       });
     });
+
   });
 });
