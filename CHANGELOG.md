@@ -1,3 +1,6 @@
+## 1.1.1
+* [#10: Fix a bug that caused creating a spritesheet to fail if the source svg has additional content, such as a XML preamble.](https://github.com/haensl/gulp-embed-svg/issues/10)
+
 ## 1.1.0
 * [#8: Add an option to create a SVG spritesheet.](https://github.com/haensl/gulp-embed-svg/issues/8)
 * Update dependencies.

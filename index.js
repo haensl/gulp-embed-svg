@@ -89,7 +89,7 @@ module.exports = (opts = {}) =>
         && fs.existsSync(absSrc)
         && fs.statSync(absSrc).isFile()) {
         try {
-          const svgSrc = $(fs.readFileSync(absSrc, 'utf8'));
+          const svgSrc = $('svg', fs.readFileSync(absSrc, 'utf8'));
           let svgElement;
           if (options.createSpritesheet) {
             if (!sprites[src]) {
