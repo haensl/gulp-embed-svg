@@ -459,6 +459,5 @@ describe('gulp-inline-svg', () => {
         });
       });
     });
-
   });
 });
