@@ -229,6 +229,8 @@ Set to `true` to embed SVGs via a spritesheet. This reduces generated HTML files
 
 #### default: `false`
 
+**Attention:** If your SVGs contain gradients, please make sure their respective `id` attribute values are unique among *all* gradients that are embedded on your page. The reason behind this is that, in order to support most (if not all) browsers, we need to extract gradient definitions from the SVGs and save them separately in the spritesheet. If there are duplicate gradient `id`s, the browser is having a hard time determining which one to use.
+
 #### Example: Create an svg spritesheet
 
 HTML Layout
