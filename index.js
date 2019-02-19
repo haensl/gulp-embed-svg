@@ -63,7 +63,9 @@ module.exports = (opts = {}) =>
       return callback(new PluginError(PLUGIN_NAME, `Invalid option: selectors must be either string or Array`));
     }
 
-    const $ = cheerio.load(file.contents.toString());
+    const $ = cheerio.load(file.contents.toString(), {
+      xmlMode: true
+    });
     let didInline = false;
     let error;
     let sprites;
@@ -98,6 +100,9 @@ module.exports = (opts = {}) =>
               Object.keys(svgSrc[0].attribs)
                 .filter((attr) => !/xmlns/.test(attr))
                 .forEach((attr) => svgSymbol.attr(attr, svgSrc.attr(attr)));
+              const gradients = $('linearGradient, radialGradient', svgSrc);
+              gradients.remove();
+              spritesheet.append(gradients);
               svgSymbol.html(svgSrc.html());
               spritesheet.append(svgSymbol);
               sprites[src] = `svg-sprite-${i}`;

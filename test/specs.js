@@ -3,6 +3,7 @@ const expect = require('chai').expect;
 const gulp = require('gulp');
 const through = require('through2');
 const fs = require('fs');
+const cheerio = require('cheerio');
 const inlineSvg = require('../');
 const fixtures = (glob) => join(__dirname, 'fixtures', glob);
 
@@ -409,6 +410,33 @@ describe('gulp-inline-svg', () => {
 
         it('works as expected', () => {
           expect(/class="github-icon"/.test(output)).to.be.true;
+        });
+      });
+
+      describe('svg with gradient', () => {
+        let output;
+        let $;
+
+        beforeEach((done) => {
+          gulp.src(fixtures('gradient.html'))
+            .pipe(inlineSvg({
+              createSpritesheet: true
+            }))
+            .pipe(through.obj((file) => {
+              output = file.contents.toString();
+              $ = cheerio.load(output, {
+                xmlMode: true
+              });
+              done();
+            }));
+        });
+
+        it('extracts the gradient into the spritesheet', () => {
+          expect($('.svg-sprites').find('linearGradient').length).to.equal(2);
+        });
+
+        it('removes the gradient from the symbol', () => {
+          expect($('.svg-sprites symbol linearGradient').length).to.equal(0);
         });
       });
 
