@@ -1,3 +1,6 @@
+## 1.1.3
+* [#14: Do not write in XML mode.](https://github.com/haensl/gulp-embed-svg/issues/14)
+
 ## 1.1.2
 * [#12: Extract gradients when creating a spritesheet to support Firefox.](https://github.com/haensl/gulp-embed-svg/issues/12)
 
