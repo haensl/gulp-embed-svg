@@ -139,6 +139,60 @@ describe('gulp-inline-svg', () => {
     });
   });
 
+  describe('nonclosing img tag', () => {
+    let output;
+
+    beforeEach((done) => {
+      gulp.src(fixtures('non-closing-img-tag.html'))
+      .pipe(inlineSvg({
+        root: './test/fixtures/svg-root'
+      }))
+      .pipe(through.obj((file) => {
+        output = file.contents.toString();
+        done();
+      }));
+    });
+
+    it('embeds the svg', () => {
+      expect(/svg/.test(output)).to.be.true;
+    });
+
+    it('preserves the header preceeding it', () => {
+      expect(/header/.test(output)).to.be.true;
+    });
+
+    it('does not preserve the container following it', () => {
+      expect(/div/.test(output)).to.be.false;
+    });
+  });
+
+  describe('self-closing img tag', () => {
+    let output;
+
+    beforeEach((done) => {
+      gulp.src(fixtures('self-closing-img-tag.html'))
+      .pipe(inlineSvg({
+        root: './test/fixtures/svg-root'
+      }))
+      .pipe(through.obj((file) => {
+        output = file.contents.toString();
+        done();
+      }));
+    });
+
+    it('embeds the svg', () => {
+      expect(/svg/.test(output)).to.be.true;
+    });
+
+    it('preserves the header preceeding it', () => {
+      expect(/header/.test(output)).to.be.true;
+    });
+
+    it('preserves the container following it', () => {
+      expect(/div/.test(output)).to.be.true;
+    });
+  });
+
   describe('options', () => {
     describe('selectors', () => {
       let output;
@@ -394,7 +448,7 @@ describe('gulp-inline-svg', () => {
         });
       });
 
-      describe('svg with preable', () => {
+      describe('svg with preamble', () => {
         let output;
 
         beforeEach((done) => {
