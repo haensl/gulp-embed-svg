@@ -1,3 +1,6 @@
+## 1.1.5
+* [#18: Update dependencies.](https://github.com/haensl/gulp-embed-svg/issues/18)
+
 ## 1.1.4
 * [#16: Add unit tests to cover non-closed and self-closing img tags.](https://github.com/haensl/gulp-embed-svg/issues/16)
 
