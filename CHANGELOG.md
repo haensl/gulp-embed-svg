@@ -1,3 +1,6 @@
+## 1.2.0
+* [#22: Add an option to hand in a function to determine the sprite id.](https://github.com/haensl/gulp-embed-svg/issues/22)
+
 ## 1.1.6
 * [#20: Update dependencies.](https://github.com/haensl/gulp-embed-svg/issues/20)
 

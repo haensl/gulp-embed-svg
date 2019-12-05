@@ -14,7 +14,8 @@ const defaults = {
   root: __dirname,
   decodeEntities: false,
   createSpritesheet: false,
-  spritesheetClass: 'svg-sprites'
+  spritesheetClass: 'svg-sprites',
+  spriteIdFn: (path, i) => `svg-sprite-${i}`
 };
 
 module.exports = (opts = {}) =>
@@ -51,6 +52,10 @@ module.exports = (opts = {}) =>
 
     if (typeof options.spritesheetClass !== 'string') {
       return callback(new PluginError(PLUGIN_NAME, 'Invalid option: spritesheetClass must be a string'));
+    }
+
+    if (typeof options.spriteIdFn !== 'function') {
+      return callback(new PluginError(PLUGIN_NAME, 'Invalid option: spriteIdFn must be a function'));
     }
 
     let selectors;
@@ -96,7 +101,8 @@ module.exports = (opts = {}) =>
           if (options.createSpritesheet) {
             if (!sprites[src]) {
               const svgSymbol = $('<symbol></symbol>');
-              svgSymbol.attr('id', `svg-sprite-${i}`);
+              const spriteId = options.spriteIdFn(absSrc, i);
+              svgSymbol.attr('id', spriteId);
               Object.keys(svgSrc[0].attribs)
                 .filter((attr) => !/xmlns/.test(attr))
                 .forEach((attr) => svgSymbol.attr(attr, svgSrc.attr(attr)));
@@ -105,7 +111,7 @@ module.exports = (opts = {}) =>
               spritesheet.append(gradients);
               svgSymbol.html(svgSrc.html());
               spritesheet.append(svgSymbol);
-              sprites[src] = `svg-sprite-${i}`;
+              sprites[src] = spriteId;
               i++;
             }
 

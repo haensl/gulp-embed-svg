@@ -36,7 +36,15 @@ This gulp task will inline/embed any images with an SVG source attribute (i.e. `
 
 ## Options
 
-### selectors `string | Array<string>`
+* [`selectors`](#selectors): Provide custom CSS selectors to specify which tags should be replaced by embedded SVGs.
+* [`attrs`](#attrs): Provide a regular expression to transfer select attributes from matched tags to embedded `<svg>`s.
+* [`decodeEntities`](#decode-entities): Set to `true` to decode HTML entities within the document.
+* [`root`](#root): Provide the root folder where SVG source images are located.
+* [`createSpritesheet`](#create-spritesheet): Set to `true` to embed SVGs via a spritesheet. This reduces generated HTML filesize if you use the same SVG several times on a page.
+* [`spritesheetClass`](#spritesheet-class): Customize the CSS class assigned to the generated spritesheet.
+* [`spriteIdFn`](#sprite-id-fn): Customize the `id` assigned to the sprites by providing a function that resolves path and index to a string.
+
+### selectors `string | Array<string>`<a name="selectors"></a>
 
 Provide custom CSS selectors to specify which tags should be replaced by embedded SVGs.
 
@@ -45,7 +53,9 @@ Provide custom CSS selectors to specify which tags should be replaced by embedde
 All `<img>` and `<svg>` tags with an svg source.
 
 #### Example: Only embed tags with a specific class
-HTML layout
+
+**HTML layout**
+
 ```html
 <html>
   <head><!-- ... --></head>
@@ -58,7 +68,8 @@ HTML layout
 </html>
 ```
 
-Gulp task
+**Gulp task**
+
 ```javascript
 const embedSvg = require('gulp-embed-svg');
 
@@ -70,7 +81,8 @@ gulp.task('embedSvgs', () =>
     .pipe(gulp.dest('dist/')));
 ```
 
-Output
+**Output**
+
 ```html
 <html>
   <head><!-- ... --></head>
@@ -84,7 +96,7 @@ Output
 ```
 
 
-### attrs `string | RegExp`
+### attrs `string | RegExp`<a name="attrs"></a>
 
 Provide a regular expression to transfer select attributes from matched tags to embedded `<svg>`s.
 
@@ -95,7 +107,9 @@ Provide a regular expression to transfer select attributes from matched tags to 
 Transfer/preserve any attribute **but** `src`.
 
 #### Example: Preserve/transfer specific attribute
-HTML layout
+
+**HTML layout**
+
 ```html
 <html>
 <head><!-- ... --></head>
@@ -107,7 +121,8 @@ HTML layout
 </html>
 ```
 
-Gulp task
+**Gulp task**
+
 ```javascript
 const embedSvg = require('gulp-embed-svg');
 
@@ -119,7 +134,8 @@ gulp.task('embedSvgs', () =>
     .pipe(gulp.dest('dist/')));
 ```
 
-Output
+**Output**
+
 ```html
 <html>
   <head><!-- ... --></head>
@@ -131,7 +147,7 @@ Output
 </html>
 ```
 
-### decodeEntities `boolean`
+### decodeEntities `boolean`<a name="decode-entities"></a>
 
 Set to `true` to decode HTML entities within the document.
 
@@ -139,7 +155,7 @@ Set to `true` to decode HTML entities within the document.
 
 ##### Example: Replace potential entities in document with html entities
 
-HTML layout
+**HTML layout**
 
 ```html
 <html>
@@ -153,7 +169,8 @@ HTML layout
 </html>
 ```
 
-Gulp task
+**Gulp task**
+
 ```javascript
 const embedSvg = require('gulp-embed-svg');
 
@@ -165,7 +182,8 @@ gulp.task('embedSvgs', () =>
     .pipe(gulp.dest('dist/')));
 ```
 
-Output
+**Output**
+
 ```html
 <html>
   <head><!-- ... --></head>
@@ -179,7 +197,7 @@ Output
 ```
 
 
-### root `string`
+### root `string`<a name="root"></a>
 
 Provide the root folder where SVG source images are located.
 
@@ -189,7 +207,7 @@ The folder in which the task is executed.
 
 #### Example: Alternate svg root
 
-HTML layout
+**HTML layout**
 
 ```html
 <html>
@@ -202,7 +220,7 @@ HTML layout
 </html>
 ```
 
-Folder structure
+**Folder structure**
 ```bash
   /src
     index.html
@@ -211,7 +229,8 @@ Folder structure
       github-icon.svg
 ```
 
-Gulp task
+**Gulp task**
+
 ```javascript
 const embedSvg = require('gulp-embed-svg');
 
@@ -223,7 +242,7 @@ gulp.task('embedSvgs', () =>
     .pipe(gulp.dest('dist/')));
 ```
 
-### createSpritesheet `boolean`
+### createSpritesheet `boolean`<a name="create-spritesheet"></a>
 
 Set to `true` to embed SVGs via a spritesheet. This reduces generated HTML filesize if you use the same SVG several times on a page.
 
@@ -233,7 +252,7 @@ Set to `true` to embed SVGs via a spritesheet. This reduces generated HTML files
 
 #### Example: Create an svg spritesheet
 
-HTML Layout
+**HTML Layout**
 
 ```html
 <html>
@@ -248,7 +267,8 @@ HTML Layout
 </html>
 ```
 
-Folder structure
+**Folder structure**
+
 ```bash
   /src
     index.html
@@ -257,7 +277,8 @@ Folder structure
       github-icon.svg
 ```
 
-Gulp task
+**Gulp task**
+
 ```javascript
 const embedSvg = require('gulp-embed-svg');
 
@@ -270,7 +291,8 @@ gulp.task('embedSvgs', () =>
     .pipe(gulp.dest('dist/')));
 ```
 
-Output
+**Output**
+
 ```html
 <html>
   <head><!-- ... --></head>
@@ -293,7 +315,7 @@ Output
 </html>
 ```
 
-### spritesheetClass `string`
+### spritesheetClass `string`<a name="spritesheet-class"></a>
 
 Customize the CSS class assigned to the generated spritesheet.
 
@@ -301,7 +323,7 @@ Customize the CSS class assigned to the generated spritesheet.
 
 #### Example: Change spritesheet class to my-sprites
 
-HTML Layout
+**HTML Layout**
 
 ```html
 <html>
@@ -316,7 +338,8 @@ HTML Layout
 </html>
 ```
 
-Folder structure
+**Folder structure**
+
 ```bash
   /src
     index.html
@@ -325,7 +348,8 @@ Folder structure
       github-icon.svg
 ```
 
-Gulp task
+**Gulp task**
+
 ```javascript
 const embedSvg = require('gulp-embed-svg');
 
@@ -339,7 +363,8 @@ gulp.task('embedSvgs', () =>
     .pipe(gulp.dest('dist/')));
 ```
 
-Output
+**Output**
+
 ```html
 <html>
   <head><!-- ... --></head>
@@ -356,6 +381,83 @@ Output
     <!-- ... -->
     <svg>
       <use xlink:href="#svg-sprite-0">
+    </svg>
+    <!-- ... -->
+  </body>
+</html>
+```
+
+### spriteIdFn `function` <a name="sprite-id-fn"></a>
+
+Customize the `id` assigned to the sprites by providing a function that resolves path and index to a string. The function receives the absolute/resolved path to the source SVG file as well as the index of the sprite within the page as parameters.
+
+#### default: ``(path, i) => `svg-sprite-${i}` ``
+
+#### Example: Use the filename as id
+
+**HTML Layout**
+
+```html
+<html>
+  <head><!-- ... --></head>
+  <body>
+    <!-- ... -->
+    <svg src="github-icon.svg"></svg>
+    <!-- ... -->
+    <svg src="javascript-icon.svg"></svg>
+    <!-- ... -->
+  </body>
+</html>
+```
+
+**Folder structure**
+
+```bash
+  /src
+    index.html
+    gulpfile.js
+    /assets
+      github-icon.svg
+      javascript-icon.svg
+```
+
+**Gulp task**
+
+```javascript
+const embedSvg = require('gulp-embed-svg');
+const basename = require('path').basename;
+
+gulp.task('embedSvgs', () =>
+  gulp.src('*.html')
+    .pipe(embedSvg({
+      root: './assets',
+      createSpritesheet: true,
+      spriteIdFn: (path, i) => basename(path, '.svg')
+    }))
+    .pipe(gulp.dest('dist/')));
+```
+
+**Output**
+
+```html
+<html>
+  <head><!-- ... --></head>
+  <body>
+    <svg class="svg-sprites">
+      <symbol id="github-icon">
+        <!-- source of github-icon.svg -->
+      </symbol>
+      <symbol id="javascript-icon">
+        <!-- source of javascript-icon.svg -->
+      </symbol>
+    </svg>
+    <!-- ... -->
+    <svg>
+      <use xlink:href="#github-icon">
+    </svg>
+    <!-- ... -->
+    <svg>
+      <use xlink:href="#javascript-icon">
     </svg>
     <!-- ... -->
   </body>
