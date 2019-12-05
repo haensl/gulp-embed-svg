@@ -1,6 +1,6 @@
 {
   "name": "gulp-embed-svg",
-  "version": "1.1.6",
+  "version": "1.2.0",
   "description": "Gulp plugin to embed/inline svg images and optionally create a spritesheet.",
   "main": "index.js",
   "engines": {

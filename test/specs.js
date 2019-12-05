@@ -4,6 +4,7 @@ const gulp = require('gulp');
 const through = require('through2');
 const fs = require('fs');
 const cheerio = require('cheerio');
+const basename = require('path').basename;
 const inlineSvg = require('../');
 const fixtures = (glob) => join(__dirname, 'fixtures', glob);
 
@@ -537,6 +538,44 @@ describe('gulp-inline-svg', () => {
           expect(() => gulp.src(fixtures('three-svgs.html'))
             .pipe(inlineSvg({
               spritesheetClass: 123
+            }))).to.throw;
+        });
+      });
+    });
+
+    describe('spriteIdFn', () => {
+      describe('function', () => {
+        let output;
+        beforeEach((done) => {
+          gulp.src(fixtures('three-svgs.html'))
+            .pipe(inlineSvg({
+              createSpritesheet: true,
+              spriteIdFn: (path, i) => basename(path, '.svg')
+            }))
+            .pipe(through.obj((file) => {
+              output = file.contents.toString();
+              done();
+            }));
+        });
+
+        it('inserts an svg spritesheet into the body', () => {
+          expect(/<svg class="svg-sprites"/.test(output)).to.be.true;
+        });
+
+        it('sets the id property of the first sprite correcty', () => {
+          expect(/<symbol id="test"/.test(output)).to.be.true;
+        });
+
+        it('sets the id property of the second sprite correcty', () => {
+          expect(/<symbol id="test2"/.test(output)).to.be.true;
+        });
+      });
+
+      describe('non-function', () => {
+        it('throws an error', () => {
+          expect(() => gulp.src(fixture('three-svgs.html'))
+            .pipe(inlineSvg({
+              spriteIdFn: {}
             }))).to.throw;
         });
       });
