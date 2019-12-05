@@ -550,7 +550,7 @@ describe('gulp-inline-svg', () => {
           gulp.src(fixtures('three-svgs.html'))
             .pipe(inlineSvg({
               createSpritesheet: true,
-              spriteIdFn: (path, i) => basename(path, '.svg')
+              spriteIdFn: (path) => basename(path, '.svg')
             }))
             .pipe(through.obj((file) => {
               output = file.contents.toString();
@@ -573,7 +573,7 @@ describe('gulp-inline-svg', () => {
 
       describe('non-function', () => {
         it('throws an error', () => {
-          expect(() => gulp.src(fixture('three-svgs.html'))
+          expect(() => gulp.src(fixtures('three-svgs.html'))
             .pipe(inlineSvg({
               spriteIdFn: {}
             }))).to.throw;
