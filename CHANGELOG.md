@@ -1,3 +1,6 @@
+## 1.3.0
+* [#30: Migrate to CircleCI.](https://github.com/haensl/gulp-embed-svg/issues/30)
+
 ## 1.2.1
 * [#28: Update dependencies.](https://github.com/haensl/gulp-embed-svg/issues/28)
 
