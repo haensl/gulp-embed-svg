@@ -1,11 +1,10 @@
-const join = require('path').join;
+const { basename, join, resolve } = require('path');
 const expect = require('chai').expect;
 const gulp = require('gulp');
 const through = require('through2');
 const fs = require('fs');
 const cheerio = require('cheerio');
-const basename = require('path').basename;
-const inlineSvg = require('../');
+const inlineSvg = require('../lib');
 const fixtures = (glob) => join(__dirname, 'fixtures', glob);
 
 describe('gulp-inline-svg', () => {
@@ -14,7 +13,9 @@ describe('gulp-inline-svg', () => {
 
     beforeEach((done) => {
       gulp.src(fixtures('svg.html'))
-        .pipe(inlineSvg())
+        .pipe(inlineSvg({
+          root: resolve(__dirname, '..')
+        }))
         .pipe(through.obj((file) => {
           output = file.contents.toString();
           done();
@@ -37,7 +38,9 @@ describe('gulp-inline-svg', () => {
     describe('with decodeEntities set to false', () => {
       beforeEach((done) => {
         gulp.src(fixtures('cyrillic-svg.html'))
-          .pipe(inlineSvg())
+          .pipe(inlineSvg({
+            root: resolve(__dirname, '..')
+          }))
           .pipe(through.obj((file) => {
             output = file.contents.toString();
             done();
@@ -62,6 +65,7 @@ describe('gulp-inline-svg', () => {
       beforeEach((done) => {
         gulp.src(fixtures('cyrillic-svg.html'))
           .pipe(inlineSvg({
+            root: resolve(__dirname, '..'),
             decodeEntities: true
           }))
           .pipe(through.obj((file) => {
@@ -90,7 +94,9 @@ describe('gulp-inline-svg', () => {
 
     beforeEach((done) => {
       gulp.src(fixtures('img.html'))
-        .pipe(inlineSvg())
+        .pipe(inlineSvg({
+          root: resolve(__dirname, '..')
+        }))
         .pipe(through.obj((file) => {
           output = file.contents.toString();
           done();
@@ -115,7 +121,9 @@ describe('gulp-inline-svg', () => {
     beforeEach((done) => {
       input = fs.readFileSync(fixtures('no-img.html'), 'utf8');
       gulp.src(fixtures('no-img.html'))
-        .pipe(inlineSvg())
+        .pipe(inlineSvg({
+          root: resolve(__dirname, '..')
+        }))
         .pipe(through.obj((file) => {
           output = file.contents.toString();
           done();
@@ -202,6 +210,7 @@ describe('gulp-inline-svg', () => {
         beforeEach((done) => {
           gulp.src(fixtures('custom-selectors.html'))
             .pipe(inlineSvg({
+              root: resolve(__dirname, '..'),
               selectors: '.select-me'
             }))
             .pipe(through.obj((file) => {
@@ -223,6 +232,7 @@ describe('gulp-inline-svg', () => {
         beforeEach((done) => {
           gulp.src(fixtures('custom-selectors.html'))
             .pipe(inlineSvg({
+              root: resolve(__dirname, '..'),
               selectors: ['.select-me', '.also-select-me']
             }))
             .pipe(through.obj((file) => {
@@ -275,6 +285,7 @@ describe('gulp-inline-svg', () => {
           beforeEach((done) => {
             gulp.src(fixtures('svg.html'))
               .pipe(inlineSvg({
+                root: resolve(__dirname, '..'),
                 attrs: '.*'
               }))
               .pipe(through.obj((file) => {
@@ -296,6 +307,7 @@ describe('gulp-inline-svg', () => {
           beforeEach((done) => {
             gulp.src(fixtures('svg.html'))
               .pipe(inlineSvg({
+                root: resolve(__dirname, '..'),
                 attrs: /.*/
               }))
               .pipe(through.obj((file) => {
@@ -321,6 +333,7 @@ describe('gulp-inline-svg', () => {
           beforeEach((done) => {
             gulp.src(fixtures('specific-attr.html'))
               .pipe(inlineSvg({
+                root: resolve(__dirname, '..'),
                 attrs: 'some-attr'
               }))
               .pipe(through.obj((file) => {
@@ -346,6 +359,7 @@ describe('gulp-inline-svg', () => {
           beforeEach((done) => {
             gulp.src(fixtures('specific-attr.html'))
               .pipe(inlineSvg({
+                root: resolve(__dirname, '..'),
                 attrs: /some-attr/
               }))
               .pipe(through.obj((file) => {
@@ -428,6 +442,7 @@ describe('gulp-inline-svg', () => {
         beforeEach((done) => {
           gulp.src(fixtures('three-svgs.html'))
             .pipe(inlineSvg({
+              root: resolve(__dirname, '..'),
               createSpritesheet: true
             }))
             .pipe(through.obj((file) => {
@@ -455,6 +470,7 @@ describe('gulp-inline-svg', () => {
         beforeEach((done) => {
           gulp.src(fixtures('preamble.html'))
             .pipe(inlineSvg({
+              root: resolve(__dirname, '..'),
               createSpritesheet: true
             }))
             .pipe(through.obj((file) => {
@@ -475,6 +491,7 @@ describe('gulp-inline-svg', () => {
         beforeEach((done) => {
           gulp.src(fixtures('gradient.html'))
             .pipe(inlineSvg({
+              root: resolve(__dirname, '..'),
               createSpritesheet: true
             }))
             .pipe(through.obj((file) => {
@@ -511,6 +528,7 @@ describe('gulp-inline-svg', () => {
         beforeEach((done) => {
           gulp.src(fixtures('three-svgs.html'))
             .pipe(inlineSvg({
+              root: resolve(__dirname, '..'),
               createSpritesheet: true,
               spritesheetClass: 'my-sprites'
             }))
@@ -549,6 +567,7 @@ describe('gulp-inline-svg', () => {
         beforeEach((done) => {
           gulp.src(fixtures('three-svgs.html'))
             .pipe(inlineSvg({
+              root: resolve(__dirname, '..'),
               createSpritesheet: true,
               spriteIdFn: (path) => basename(path, '.svg')
             }))
