@@ -36,13 +36,14 @@ This gulp task will inline/embed any images with an SVG source attribute (i.e. `
 
 ## Options
 
-* [`selectors`](#selectors): Provide custom CSS selectors to specify which tags should be replaced by embedded SVGs.
 * [`attrs`](#attrs): Provide a regular expression to transfer select attributes from matched tags to embedded `<svg>`s.
+* [`createSpritesheet`](#create-spritesheet): Set to `true` to embed SVGs via a spritesheet. This reduces generated HTML filesize if you use the same SVG several times on a page.
 * [`decodeEntities`](#decode-entities): Set to `true` to decode HTML entities within the document.
 * [`root`](#root): Provide the root folder where SVG source images are located.
-* [`createSpritesheet`](#create-spritesheet): Set to `true` to embed SVGs via a spritesheet. This reduces generated HTML filesize if you use the same SVG several times on a page.
-* [`spritesheetClass`](#spritesheet-class): Customize the CSS class assigned to the generated spritesheet.
+* [`selectors`](#selectors): Provide custom CSS selectors to specify which tags should be replaced by embedded SVGs.
 * [`spriteIdFn`](#sprite-id-fn): Customize the `id` assigned to the sprites by providing a function that resolves path and index to a string.
+* [`spritesheetClass`](#spritesheet-class): Customize the CSS class assigned to the generated spritesheet.
+* [`xmlMode`](#xmlmode): Whether or not to read files in xml mode.
 
 ### selectors `string | Array<string>`<a name="selectors"></a>
 
@@ -463,6 +464,12 @@ gulp.task('embedSvgs', () =>
   </body>
 </html>
 ```
+
+### xmlMode `boolean` <a name="xmlmode"></a>
+
+Flag to toggle [xml mode](https://github.com/fb55/htmlparser2/wiki/Parser-options#option-xmlmode).
+
+#### default: `true`
 
 ## [Changelog](CHANGELOG.md)
 
