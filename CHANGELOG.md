@@ -1,3 +1,7 @@
+## 1.4.0
+* [#37: Add option to set htmlparser xml mode.](https://github.com/haensl/gulp-embed-svg/issues/37)
+* Update dependencies.
+
 ## 1.3.2
 * [#35: Update dependencies.](https://github.com/haensl/gulp-embed-svg/issues/35)
 
