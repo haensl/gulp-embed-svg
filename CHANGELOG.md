@@ -1,3 +1,7 @@
+## 1.4.5
+* [#50: Add funding information.](https://github.com/haensl/gulp-embed-svg/issues/50)
+* Update dependencies.
+
 ## 1.4.4
 * [#48: Update dependencies.](https://github.com/haensl/gulp-embed-svg/issues/48)
 
