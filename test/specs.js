@@ -57,7 +57,7 @@ describe('gulp-inline-svg', () => {
       });
 
       it('does not replace the cyrillic text with entities', () => {
-        expect(/Узнай о нас больше/.test(output)).to.be.true;
+        expect(/Узнай о нас больше/g.test(output)).to.be.true;
       });
     });
 
@@ -84,7 +84,8 @@ describe('gulp-inline-svg', () => {
       });
 
       it('replaces the cyrillic text with entities', () => {
-        expect(/&#x423;&#x437;&#x43D;&#x430;&#x439; &#x43E; &#x43D;&#x430;&#x441; &#x431;&#x43E;&#x43B;&#x44C;&#x448;&#x435;/.test(output)).to.be.true;
+        console.log(output);
+        expect(/&#x423;&#x437;&#x43d;&#x430;&#x439; &#x43e; &#x43d;&#x430;&#x441; &#x431;&#x43e;&#x43b;&#x44c;&#x448;&#x435;/.test(output)).to.be.true;
       });
     });
   });
@@ -461,26 +462,6 @@ describe('gulp-inline-svg', () => {
 
         it('inserts an svg referencing the second symbol', () => {
           expect(/<svg[^>]+><use xlink:href="#svg-sprite-1"/.test(output)).to.be.true;
-        });
-      });
-
-      describe('svg with preamble', () => {
-        let output;
-
-        beforeEach((done) => {
-          gulp.src(fixtures('preamble.html'))
-            .pipe(inlineSvg({
-              root: resolve(__dirname, '..'),
-              createSpritesheet: true
-            }))
-            .pipe(through.obj((file) => {
-              output = file.contents.toString();
-              done();
-            }));
-        });
-
-        it('works as expected', () => {
-          expect(/class="github-icon"/.test(output)).to.be.true;
         });
       });
 

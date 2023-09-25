@@ -117,7 +117,7 @@ workflows:
 jobs:
   lint:
     docker:
-      - image: circleci/node:lts
+      - image: cimg/node:lts
     working_directory: ~/gulp-embed-svg
     steps:
       - init
@@ -133,7 +133,7 @@ jobs:
 
   test:
     docker:
-      - image: circleci/node:lts
+      - image: cimg/node:lts
     working_directory: ~/gulp-embed-svg
     steps:
       - init
@@ -146,7 +146,7 @@ jobs:
 
   bundle:
     docker:
-      - image: circleci/node:lts
+      - image: cimg/node:lts
     working_directory: ~/gulp-embed-svg
     steps:
       - init
@@ -175,7 +175,7 @@ jobs:
 
   bundle-test:
     docker:
-      - image: circleci/node:lts
+      - image: cimg/node:lts
     steps:
       - init
       - attach_workspace:
@@ -195,7 +195,7 @@ jobs:
 
   ensure-versioned-correctly:
     docker:
-      - image: circleci/node:lts
+      - image: cimg/node:lts
     working_directory: ~/gulp-embed-svg
     steps:
       - init
@@ -226,7 +226,7 @@ jobs:
 
   publish:
     docker:
-      - image: circleci/node:lts
+      - image: cimg/node:lts
     working_directory: ~/gulp-embed-svg
     steps:
       - init
@@ -241,7 +241,7 @@ jobs:
 
   package-test:
     docker:
-      - image: circleci/node:lts
+      - image: cimg/node:lts
     steps:
       - init
       - create-test-project
