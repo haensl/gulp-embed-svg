@@ -74,7 +74,7 @@ commands:
     steps:
       - run:
           name: install tree
-          command: sudo apt-get -y install tree
+          command: sudo apt-get update && sudo apt-get -y install tree
       - run:
           name: gather bundle information
           command: |
