@@ -40,7 +40,7 @@ commands:
     steps:
       - run:
           name: update npm
-          command: sudo npm install -g npm
+          command: sudo npm install -g npm@latest
 
   prepare-repo:
     steps:
