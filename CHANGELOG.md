@@ -1,3 +1,6 @@
+## 1.4.11
+* [#62: Fix publishing.](https://github.com/haensl/gulp-embed-svg/issues/62)
+
 ## 1.4.10
 * [#62: Fix publishing.](https://github.com/haensl/gulp-embed-svg/issues/62)
 

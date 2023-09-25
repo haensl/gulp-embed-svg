@@ -70,19 +70,6 @@ commands:
             mkdir /tmp/<< parameters.project_name >>
             cd /tmp/<< parameters.project_name >> && npm init -y && echo "Created package.json" && cat package.json
 
-  package-information:
-    steps:
-      - run:
-          name: install tree
-          command: sudo apt-get update && sudo apt-get -y install tree
-      - run:
-          name: gather bundle information
-          command: |
-            npm info gulp-embed-svg@${VERSION} > ./bundle.info
-            tree -s node_modules/gulp-embed-svg >> ./bundle.info
-      - store_artifacts:
-          path: bundle.info
-
 workflows:
   version: 2
   default:
@@ -255,7 +242,6 @@ jobs:
           working_directory: /tmp/test-app
           command: |
             node -e "const embedSVG = require('gulp-embed-svg'); const assert = require('assert').strict; assert.deepEqual(typeof embedSVG, 'function');"
-      - package-information
 
   publish-github-release:
     docker:
