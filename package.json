@@ -3,9 +3,6 @@
   "version": "1.4.9",
   "description": "Gulp plugin to embed/inline svg images and optionally create a spritesheet.",
   "main": "lib/index.js",
-  "engines": {
-    "node": ">=18"
-  },
   "scripts": {
     "lint": "eslint **/*.js",
     "lint:ci": "eslint --format junit -o test-results/eslint/results.xml **/*.js",
