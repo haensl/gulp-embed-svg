@@ -1,12 +1,12 @@
 {
   "name": "gulp-embed-svg",
-  "version": "1.4.11",
+  "version": "1.4.12",
   "description": "Gulp plugin to embed/inline svg images and optionally create a spritesheet.",
   "main": "lib/index.js",
   "scripts": {
     "lint": "eslint **/*.js",
     "lint:ci": "eslint --format junit -o test-results/eslint/results.xml **/*.js",
-    "prepare": "if [ ${NODE_ENV} != 'production' ]; then husky install; fi",
+    "prepare": "if [ ${NODE_ENV} != 'production' ]; then husky; fi",
     "tdd": "mocha --watch",
     "test": "mocha",
     "test:ci": "mocha --recursive --reporter mocha-junit-reporter --reporter-options mochaFile=./test-results/mocha/results.xml"
@@ -72,10 +72,10 @@
   },
   "devDependencies": {
     "@haensl/eslint-config": "^1.4.1",
-    "chai": "^4.3.0",
+    "chai": "^4.5.0",
     "eslint": "^8.2.0",
     "gulp": "^4.0.0",
-    "husky": "^8.0.3",
+    "husky": "^9.1.6",
     "mocha": "^10.2.0",
     "mocha-junit-reporter": "^2.0.0"
   }

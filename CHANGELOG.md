@@ -1,3 +1,6 @@
+## 1.4.12
+* [#65: Update dependencies.](https://github.com/haensl/gulp-embed-svg/issues/65)
+
 ## 1.4.11
 * [#62: Fix publishing.](https://github.com/haensl/gulp-embed-svg/issues/62)
 
