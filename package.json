@@ -1,6 +1,6 @@
 {
   "name": "gulp-embed-svg",
-  "version": "1.4.12",
+  "version": "1.4.13",
   "description": "Gulp plugin to embed/inline svg images and optionally create a spritesheet.",
   "main": "lib/index.js",
   "scripts": {
@@ -47,7 +47,6 @@
   "author": {
     "name": "HP Dietz",
     "email": "h.p.dietz@gmail.com",
-    "twitter": "@h_p_d",
     "url": "https://hpdietz.com"
   },
   "funding": "https://github.com/sponsors/haensl",
@@ -76,7 +75,7 @@
     "eslint": "^8.2.0",
     "gulp": "^4.0.0",
     "husky": "^9.1.6",
-    "mocha": "^10.2.0",
+    "mocha": "^11.7.5",
     "mocha-junit-reporter": "^2.0.0"
   }
 }
